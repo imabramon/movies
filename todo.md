@@ -1,0 +1,5 @@
+# Компоненты
+
+- App
+- MovieList
+- MovieItem
