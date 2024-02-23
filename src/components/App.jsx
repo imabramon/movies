@@ -1,6 +1,5 @@
 import React from "react";
-import {Layout, Content} from 'antd';
-import MovieList from './MovieList.js'
+import MovieItem from "./MovieItem.jsx";
 
 
 const templateDescription = "A former basketball all-star, who has lost his wife and family foundation in a struggle with addiction attempts to regain his soul  and salvation by becoming the coach of a disparate ethnically mixed high ...";
@@ -8,6 +7,17 @@ const templatePhotoSrc = "../assets/templatePhoto.png"
 
 export default class App extends React.Component{
     maxID = 0;
+
+     makeMovie = (name, date, tags, description, src) =>{
+        return {
+            id: this.maxID++,
+            name,
+            date, 
+            tags, 
+            description, 
+            src
+        }
+    }
 
     state={
         movies:[
@@ -20,24 +30,16 @@ export default class App extends React.Component{
         ]
     }
 
-    makeMovie = (name, date, tags, description, src) =>{
-        return {
-            id: this.maxID++,
-            name,
-            date, 
-            tags, 
-            description, 
-            src
-        }
-    }
+   
 
     render(){
         return (
-            <Layout>
-                <Content>
-                    <MovieList data={this.state.movies}>
-                </Content>
-            </Layout>
+            <MovieItem {...this.state.movies[0]}/>
+            // <Layout>
+            //     <Content>
+                    
+            //     </Content>
+            // </Layout>
         )
     }
 }
