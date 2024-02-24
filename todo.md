@@ -1,5 +1,5 @@
 # Компоненты
 
 - App
-- MovieList
+- *ОК* MovieList
 - *ОК* MovieItem

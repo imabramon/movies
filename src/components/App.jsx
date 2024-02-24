@@ -1,5 +1,6 @@
 import React from "react";
 import MovieItem from "./MovieItem.jsx";
+import MovieList from "./MovieList.jsx";
 
 
 const templateDescription = "A former basketball all-star, who has lost his wife and family foundation in a struggle with addiction attempts to regain his soul  and salvation by becoming the coach of a disparate ethnically mixed high ...";
@@ -34,12 +35,7 @@ export default class App extends React.Component{
 
     render(){
         return (
-            <MovieItem {...this.state.movies[0]}/>
-            // <Layout>
-            //     <Content>
-                    
-            //     </Content>
-            // </Layout>
+            <MovieList {...this.state}/>
         )
     }
 }
