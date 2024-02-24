@@ -4,13 +4,19 @@ import Paragraph from "antd/es/typography/Paragraph";
 import Title from "antd/es/typography/Title";
 import Text from "antd/es/typography/Text"
 import defaultPicture from "../assets/templatePhoto.png"
+import { format, formatDistanceToNow } from "date-fns";
 
 
 export default function MovieItem(props){
     const {name, date, tags, description, src} = props
 
     const formatDate = (date)=>{
-        return "March 5, 2020"
+        try{
+            return format(date, "do MMMM, y")
+        }catch{
+            return "release date not specified"
+        }
+         
     } 
 
     const tagsElements = tags.map((tag=><Tag>{tag}</Tag>))
