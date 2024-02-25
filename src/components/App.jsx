@@ -2,32 +2,27 @@ import React from "react";
 import MovieList from "./MovieList.jsx";
 import { ConfigProvider, Layout } from "antd";
 import { Content } from "antd/es/layout/layout.js";
+import MovieAPIService from "../servises/MovieApiService.js";
 
 
 const templateDescription = "A former basketball all-star, who has lost his wife and family foundation in a struggle with addiction attempts to regain his soul  and salvation by becoming the coach of a disparate ethnically mixed high ...";
 const templatePhotoSrc = "../assets/templatePhoto.png"
 
 export default class App extends React.Component{
-    maxID = 0;
+    
 
     constructor(props){
+        
         super(props)
 
-        const url = 'https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1&query=return';
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwOTUzMWExMmY0ZWZiZDMyNTZlZDRjOTkxMTdkNmQ4ZCIsInN1YiI6IjY1ZDliOTlmOTNiZDY5MDE2MjhiODIzZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tW7Tgl7fSS4tqxpRXt-mQoaYanTrgHHvz9xwFLqXmWc'
-            }
-        };
+        this.maxID = 0;
+        this.movieApi = new MovieAPIService();
 
-        fetch(url, options)
-            .then(res => res.json())
-            .then(json => {
-                this.setState({movies:[...this.loadMovies(json)]})
-            })
-            .catch(err => console.error('error:' + err));
+        (async ()=>{
+            const movieData = await this.movieApi.searchMovie('return')
+            this.setState({movies:[...this.loadMovies(movieData)]})
+        })()
+
     }
 
     loadMovies = (apiJson)=>{
