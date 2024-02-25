@@ -9,6 +9,7 @@ import { format, formatDistanceToNow } from "date-fns";
 
 export default function MovieItem(props){
     const {name, date, tags, description, src} = props
+    console.log(src)
 
     const formatDate = (date)=>{
         try{
@@ -46,7 +47,7 @@ export default function MovieItem(props){
             <Card style={cardStyle} styles={cardStyles} >
                 <Row wrap={false}>
                     <Col flex={6}>
-                        <Image src={defaultPicture} style={imageStyle}/>
+                        <Image src={src} style={imageStyle}/>
                     </Col>
                     <Col flex={9}>
                         <Flex vertical style={{width: "270px"}} gap="small">
