@@ -3,6 +3,10 @@
 - *ОК* App
 - *ОК* MovieList
 - *ОК* MovieItem
+- ErrorStab
+- NoInternetCoonectionErrorStab
+- UndefinedErrorStab
+- LoadingStab
 
 # Задачи
 
@@ -10,6 +14,7 @@
 - *ОК* Сделать картинки закгружаемыми
 - *ОК* настроить CI/CD
 - Добавить лоадер когда даты нет 
+- Как реализовать проброс ошибки и ее рендер ?
 
 # Баги
 

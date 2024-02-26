@@ -6,6 +6,14 @@ import MovieAPIService from '../servises/MovieApiService.js';
 import noPosterImage from '../assets/no_poster.png';
 
 export default class App extends React.Component {
+
+  static ContentState = {
+    isLoading: 'isLoading',
+    isError: 'isError',
+    isNoInternetConnection: 'isNoInternetConnection',
+    isContenLoaded: 'isContenLoaded'
+  };
+
   constructor(props) {
     super(props);
 
@@ -14,7 +22,10 @@ export default class App extends React.Component {
 
     (async () => {
       const movieData = await this.movieApi.searchMovie('return');
-      this.setState({ movies: [...this.loadMovies(movieData)] });
+      this.setState({ 
+        movies: [...this.loadMovies(movieData)],
+        contentState: App.ContentState.isContenLoaded
+      });
     })();
   }
 
@@ -36,7 +47,19 @@ export default class App extends React.Component {
 
   state = {
     movies: [],
+    contentState: App.ContentState.isLoading
   };
+
+  renderContent = (contentState)=>{
+    switch(contentState){
+      case App.ContentState.isContenLoaded: return <MovieList {...this.state} />
+      case App.ContentState.isLoading: return <div>Is Loading</div>
+      case App.ContentState.isNoInternetConnection: return <div>Is No Internet Connection</div>
+      case App.ContentState.isError: 
+      default:
+        return <div>Is Error</div>
+    }
+  }
 
   render() {
     const contentStyles = {
@@ -50,7 +73,7 @@ export default class App extends React.Component {
     return (
       <Layout style={{ height: '100%' }}>
         <Content style={contentStyles}>
-          <MovieList {...this.state} />
+         {this.renderContent(this.state.contentState)}
         </Content>
       </Layout>
     );
