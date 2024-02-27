@@ -5,28 +5,44 @@ import { Content } from 'antd/es/layout/layout.js';
 import MovieAPIService from '../servises/MovieApiService.js';
 import noPosterImage from '../assets/no_poster.png';
 
+var sleepSetTimeout_ctrl;
+
+function sleep(ms) {
+    clearInterval(sleepSetTimeout_ctrl);
+    return new Promise(resolve => sleepSetTimeout_ctrl = setTimeout(resolve, ms));
+}
+
+
 export default class App extends React.Component {
 
   static ContentState = {
     isLoading: 'isLoading',
     isError: 'isError',
-    isNoInternetConnection: 'isNoInternetConnection',
     isContenLoaded: 'isContenLoaded'
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    movies: [],
+    contentState: App.ContentState.isLoading,
+    loadError: null
+  };
 
-    this.maxID = 0;
-    this.movieApi = new MovieAPIService();
+  maxID = 0;
+  movieApi = new MovieAPIService();
 
-    (async () => {
-      const movieData = await this.movieApi.searchMovie('return');
-      this.setState({ 
-        movies: [...this.loadMovies(movieData)],
-        contentState: App.ContentState.isContenLoaded
-      });
-    })();
+  handleOnline = ()=>{
+    this.setState({
+      contentState: App.ContentState.isLoading
+    })
+
+    this.loadData()
+  }
+
+  handleOfline = (evt)=>{
+    this.setState({
+      loadError: new Error("No inernet connection"),
+      contentState: App.ContentState.isError
+    })
   }
 
   loadMovies = (apiJson) => {
@@ -45,21 +61,50 @@ export default class App extends React.Component {
     return `https://image.tmdb.org/t/p/original${resonseURL}`;
   };
 
-  state = {
-    movies: [],
-    contentState: App.ContentState.isLoading
-  };
-
   renderContent = (contentState)=>{
     switch(contentState){
       case App.ContentState.isContenLoaded: return <MovieList {...this.state} />
       case App.ContentState.isLoading: return <div>Is Loading</div>
-      case App.ContentState.isNoInternetConnection: return <div>Is No Internet Connection</div>
       case App.ContentState.isError: 
       default:
-        return <div>Is Error</div>
+        return <div>Is Error: {this.state.loadError.message}</div>
     }
   }
+
+  loadData = () =>{
+    (async () => {
+      try {
+        await sleep(10000)
+        const movieData = await this.movieApi.searchMovie('return');
+        this.setState({ 
+          movies: [...this.loadMovies(movieData)],
+          contentState: App.ContentState.isContenLoaded
+        });
+      }catch(e){
+        this.setState({
+          contentState: App.ContentState.isError,
+          loadError: e,
+        })
+      }
+    })();
+  }
+
+  componentDidMount(){
+    if(window) {
+      window.addEventListener('online',  this.handleOnline)
+      window.addEventListener('offline', this.handleOfline)
+    }
+    this.loadData()
+  }
+
+  componentWillUnmount(){
+    if(window) {
+      window.removeEventListener('online',  this.handleOnline)
+      window.removeEventListener('offline', this.handleOfline)
+    }
+  }
+
+  
 
   render() {
     const contentStyles = {
