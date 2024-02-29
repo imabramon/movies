@@ -4,6 +4,9 @@ import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout.js';
 import MovieAPIService from '../servises/MovieApiService.js';
 import noPosterImage from '../assets/no_poster.png';
+import LoadingStab from './LoadingStab.jsx';
+import NetworkError from '../errors/NetworkError.js';
+import ErrorStub from './ErrorStub.jsx';
 
 var sleepSetTimeout_ctrl;
 
@@ -11,7 +14,6 @@ function sleep(ms) {
     clearInterval(sleepSetTimeout_ctrl);
     return new Promise(resolve => sleepSetTimeout_ctrl = setTimeout(resolve, ms));
 }
-
 
 export default class App extends React.Component {
 
@@ -40,7 +42,7 @@ export default class App extends React.Component {
 
   handleOfline = (evt)=>{
     this.setState({
-      loadError: new Error("No inernet connection"),
+      loadError: new NetworkError(),
       contentState: App.ContentState.isError
     })
   }
@@ -64,10 +66,10 @@ export default class App extends React.Component {
   renderContent = (contentState)=>{
     switch(contentState){
       case App.ContentState.isContenLoaded: return <MovieList {...this.state} />
-      case App.ContentState.isLoading: return <div>Is Loading</div>
+      case App.ContentState.isLoading: return <LoadingStab/>
       case App.ContentState.isError: 
-      default:
-        return <div>Is Error: {this.state.loadError.message}</div>
+      default: 
+        return <ErrorStub error={this.state.loadError} />
     }
   }
 
@@ -104,11 +106,10 @@ export default class App extends React.Component {
     }
   }
 
-  
-
   render() {
     const contentStyles = {
-      width: 'fit-content',
+      width: '100%',
+      height: '100%',
       marginLeft: 'auto',
       marginRight: 'auto',
       backgroundColor: 'white',
