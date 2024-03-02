@@ -7,6 +7,8 @@
 - *ОК* NoInternetCoonectionErrorStab
 - *ОК* UndefinedErrorStab
 - *ОК* LoadingStab
+- SearchInput
+- EmptySearchStub
 
 # Задачи
 
