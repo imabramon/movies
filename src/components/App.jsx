@@ -1,13 +1,15 @@
 import React from 'react';
 import MovieList from './MovieList.jsx';
 import { Layout } from 'antd';
-import { Content } from 'antd/es/layout/layout.js';
+import { Content, Header } from 'antd/es/layout/layout.js';
 import MovieAPIService from '../servises/MovieApiService.js';
 import noPosterImage from '../assets/no_poster.png';
 import LoadingStab from './LoadingStab.jsx';
 import NetworkError from '../errors/NetworkError.js';
 import ErrorStub from './ErrorStub.jsx';
 import EmptySearchStub from './EmptySearchStub.jsx';
+import SearchInput from './SearchInput.jsx';
+import _ from 'loadsh'
 
 var sleepSetTimeout_ctrl;
 
@@ -28,7 +30,8 @@ export default class App extends React.Component {
   state = {
     movies: [],
     contentState: App.ContentState.isEmptySearch,
-    loadError: null
+    loadError: null,
+    inputValue: "Return",
   };
 
   maxID = 0;
@@ -36,10 +39,10 @@ export default class App extends React.Component {
 
   handleOnline = ()=>{
     this.setState({
-      contentState: App.ContentState.isLoading
+      contentState: this.inputValue ? App.ContentState.isLoading : App.ContentState.isEmptySearch
     })
 
-    this.loadData()
+    // this.loadData()
   }
 
   handleOfline = (evt)=>{
@@ -76,11 +79,12 @@ export default class App extends React.Component {
     }
   }
 
-  loadData = () =>{
+  loadData = _.throttle((query) =>{
     (async () => {
       try {
-        await sleep(10000)
-        const movieData = await this.movieApi.searchMovie('return');
+        console.log(query)
+        // await sleep(10000)
+        const movieData = await this.movieApi.searchMovie(query);
         this.setState({ 
           movies: [...this.loadMovies(movieData)],
           contentState: App.ContentState.isContenLoaded
@@ -92,6 +96,12 @@ export default class App extends React.Component {
         })
       }
     })();
+  }, 2000)
+
+  inputChange = (evt) =>{
+    this.setState({
+      inputValue: evt.target.value
+    })
   }
 
   componentDidMount(){
@@ -109,6 +119,17 @@ export default class App extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState){
+    const {inputValue} = this.state;
+
+    if(inputValue !== prevState.inputValue){
+      if(inputValue){
+        this.setState({contentState: App.ContentState.isLoading})
+        this.loadData(inputValue)
+      }
+    }
+  }
+
   render() {
     const contentStyles = {
       width: '100%',
@@ -121,6 +142,9 @@ export default class App extends React.Component {
 
     return (
       <Layout style={{ height: '100%' }}>
+        <Header>
+          <SearchInput changeHandler={this.inputChange}/>
+        </Header>
         <Content style={contentStyles}>
          {this.renderContent(this.state.contentState)}
         </Content>

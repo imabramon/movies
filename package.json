@@ -14,6 +14,7 @@
   "dependencies": {
     "antd": "^5.10.2",
     "date-fns": "^3.3.1",
+    "loadsh": "^0.0.4",
     "observe": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
