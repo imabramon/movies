@@ -7,6 +7,7 @@ import noPosterImage from '../assets/no_poster.png';
 import LoadingStab from './LoadingStab.jsx';
 import NetworkError from '../errors/NetworkError.js';
 import ErrorStub from './ErrorStub.jsx';
+import EmptySearchStub from './EmptySearchStub.jsx';
 
 var sleepSetTimeout_ctrl;
 
@@ -20,12 +21,13 @@ export default class App extends React.Component {
   static ContentState = {
     isLoading: 'isLoading',
     isError: 'isError',
-    isContenLoaded: 'isContenLoaded'
+    isContenLoaded: 'isContenLoaded',
+    isEmptySearch: 'isEmptySearch',
   };
 
   state = {
     movies: [],
-    contentState: App.ContentState.isLoading,
+    contentState: App.ContentState.isEmptySearch,
     loadError: null
   };
 
@@ -67,6 +69,7 @@ export default class App extends React.Component {
     switch(contentState){
       case App.ContentState.isContenLoaded: return <MovieList {...this.state} />
       case App.ContentState.isLoading: return <LoadingStab/>
+      case App.ContentState.isEmptySearch: return <EmptySearchStub/>
       case App.ContentState.isError: 
       default: 
         return <ErrorStub error={this.state.loadError} />

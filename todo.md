@@ -8,7 +8,7 @@
 - *ОК* UndefinedErrorStab
 - *ОК* LoadingStab
 - SearchInput
-- EmptySearchStub
+- *ОК* EmptySearchStub
 
 # Задачи
 
