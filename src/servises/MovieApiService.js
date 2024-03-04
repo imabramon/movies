@@ -1,4 +1,5 @@
 export default class MovieAPIService {
+
   server = 'https://api.themoviedb.org/3/';
 
   authToken =
@@ -10,6 +11,19 @@ export default class MovieAPIService {
       Authorization: `Bearer ${this.authToken}`,
     },
   };
+
+  constructor(){
+    this.checkSession()
+  }
+
+  async checkSession(){
+    if(this.guestSessionId){
+      return
+    }
+
+    const {guest_session_id} = await this.getResponse('authentication/guest_session/new')
+    this.guestSessionId = guest_session_id
+  }
 
   async getResponse(url) {
     const res = await fetch(this.server + url, {...this.defualtOptions});
