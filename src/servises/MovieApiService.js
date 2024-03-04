@@ -12,7 +12,7 @@ export default class MovieAPIService {
   };
 
   async getResponse(url) {
-    const res = await fetch(this.server + url, this.defualtOptions);
+    const res = await fetch(this.server + url, {...this.defualtOptions});
     const data = await res.json();
     return data;
   }
@@ -24,6 +24,11 @@ export default class MovieAPIService {
 
   async searchMovie(query) {
     const moviesData = await this.search(`movie?include_adult=false&language=en-US&page=1&query=${query}`);
+    return moviesData;
+  }
+
+  async searchMovieByPage(query, page) {
+    const moviesData = await this.search(`movie?include_adult=false&language=en-US&query=${query}&page=${page}`);
     return moviesData;
   }
 }

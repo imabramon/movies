@@ -32,6 +32,8 @@ export default class App extends React.Component {
     contentState: App.ContentState.isEmptySearch,
     loadError: null,
     inputValue: "Return",
+    currentPage: 0,
+    totalPages: 0,
   };
 
   maxID = 0;
@@ -68,9 +70,17 @@ export default class App extends React.Component {
     return `https://image.tmdb.org/t/p/original${resonseURL}`;
   };
 
+  goToPage = (page) =>{
+    this.setState({contentState: App.ContentState.isLoading})
+    this.loadData(this.state.inputValue, page)
+  }
+
   renderContent = (contentState)=>{
     switch(contentState){
-      case App.ContentState.isContenLoaded: return <MovieList {...this.state} />
+      case App.ContentState.isContenLoaded: 
+        const {currentPage, totalPages, movies} = this.state
+        const props = {currentPage, totalPages, movies, changePageHandler: this.goToPage}
+        return <MovieList {...props}/>
       case App.ContentState.isLoading: return <LoadingStab/>
       case App.ContentState.isEmptySearch: return <EmptySearchStub/>
       case App.ContentState.isError: 
@@ -79,15 +89,19 @@ export default class App extends React.Component {
     }
   }
 
-  loadData = _.throttle((query) =>{
+  loadData = _.throttle((query, page=1) =>{
     (async () => {
       try {
-        console.log(query)
+        console.log(page)
         // await sleep(10000)
-        const movieData = await this.movieApi.searchMovie(query);
+        const movieData = await this.movieApi.searchMovieByPage(query, page);
+        console.log(movieData)
+        const {total_pages: totalPages} = movieData 
         this.setState({ 
           movies: [...this.loadMovies(movieData)],
-          contentState: App.ContentState.isContenLoaded
+          contentState: App.ContentState.isContenLoaded,
+          currentPage: page,
+          totalPages,
         });
       }catch(e){
         this.setState({
@@ -97,6 +111,9 @@ export default class App extends React.Component {
       }
     })();
   }, 2000)
+
+
+
 
   inputChange = (evt) =>{
     this.setState({
@@ -120,12 +137,18 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState){
-    const {inputValue} = this.state;
+    const {inputValue, currentPage} = this.state;
 
     if(inputValue !== prevState.inputValue){
       if(inputValue){
         this.setState({contentState: App.ContentState.isLoading})
         this.loadData(inputValue)
+      }
+    }
+
+    if(currentPage !== prevState.currentPage){
+      if(window){
+        window.scrollTo(0, 0)
       }
     }
   }

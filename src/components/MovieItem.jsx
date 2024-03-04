@@ -8,7 +8,7 @@ import { format, formatDistanceToNow } from 'date-fns';
 
 export default function MovieItem(props) {
   const { name, date, tags, description, src } = props;
-  console.log(src);
+  // console.log(src);
 
   const formatDate = (date) => {
     try {
