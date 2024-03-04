@@ -45,4 +45,9 @@ export default class MovieAPIService {
     const moviesData = await this.search(`movie?include_adult=false&language=en-US&query=${query}&page=${page}`);
     return moviesData;
   }
+
+  async getGenres(){
+    const genresData = await this.getResponse('genre/movie/list')
+    return genresData
+  }
 }

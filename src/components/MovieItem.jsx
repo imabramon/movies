@@ -5,6 +5,7 @@ import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import defaultPicture from '../assets/templatePhoto.png';
 import { format, formatDistanceToNow } from 'date-fns';
+import GenreTag from './GenreTag';
 
 export default function MovieItem(props) {
   const { name, date, tags, description, src } = props;
@@ -18,7 +19,7 @@ export default function MovieItem(props) {
     }
   };
 
-  const tagsElements = tags.map((tag) => <Tag>{tag}</Tag>);
+  const tagsElements = tags.map((tag) => <GenreTag id={tag}/>)
 
   const cardStyle = {
     width: 500,
