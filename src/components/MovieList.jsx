@@ -3,8 +3,8 @@ import { Flex, Pagination } from 'antd';
 import MovieItem from './MovieItem';
 
 export default function MovieList(props) {
-  const { movies, totalPages, currentPage, changePageHandler} = props;
-  const movieElements = movies.map((movieData) => <MovieItem key={movieData} {...movieData} />);
+  const { movies, totalPages, currentPage, changePageHandler, rateHandler} = props;
+  const movieElements = movies.map((movieData) => <MovieItem key={movieData.id} {...movieData} rateHandler={rateHandler}/>);
 
   const flexStyle = {
     width: 1036,

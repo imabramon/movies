@@ -47,7 +47,7 @@ export default class SearchMoviePage extends React.Component {
     // this.loadData()
   }
 
-  handleOfline = (evt)=>{
+  handleOfline = ()=>{
     this.setState({
       loadError: new NetworkError(),
       contentState: SearchMoviePage.ContentState.isError
@@ -62,6 +62,7 @@ export default class SearchMoviePage extends React.Component {
       description: result.overview,
       tags: result.genre_ids,
       src: this.getFullImageURL(result.poster_path),
+      rating: result.vote_average,
     }));
   };
 
@@ -83,6 +84,7 @@ export default class SearchMoviePage extends React.Component {
           currentPage, 
           totalPages, 
           movies, 
+          rateHandler: this.props.rateHandler,
           changePageHandler: this.goToPage}
         return <MovieList {...props}/>
       case SearchMoviePage.ContentState.isLoading: return <LoadingStab/>
@@ -99,7 +101,7 @@ export default class SearchMoviePage extends React.Component {
         console.log(page)
         // await sleep(10000)
         const movieData = await this.movieApi.searchMovieByPage(query, page);
-        console.log(movieData)
+        //console.log(movieData)
         const {total_pages: totalPages} = movieData 
         this.setState({ 
           movies: [...this.loadMovies(movieData)],

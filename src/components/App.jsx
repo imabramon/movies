@@ -4,12 +4,16 @@ import { Tabs } from "antd";
 import MovieAPIService from '../servises/MovieApiService.js';
 import { GenresContext } from "../contexts/GenresContext.jsx";
 import { APIContext } from "../contexts/APIContext.jsx";
+import {RatingContext} from "../contexts/RatingContext.jsx";
+import RatedMoviePage from "./RatedMoviePage.jsx";
 
 export default class App extends React.Component{
     movieApi = new MovieAPIService();
 
     state ={
-        genres: undefined
+        genres: undefined,
+        ratedMovies: [],
+        ratingMap: {}
     }
 
     constructor(props){
@@ -24,35 +28,61 @@ export default class App extends React.Component{
             })
 
             this.setState({
-                genres
+                genres 
             })
         })()
     }
 
+    rateMovie = (movieData, rating)=>{
+        console.log("movieRated")
+        console.log("movie data:", movieData)
+        console.log("rating:", rating)
+        if(movieData.id in this.state.ratingMap){
+            this.setState(({ratingMap})=>({
+                ratingMap:{
+                    ...ratingMap,
+                    [movieData.id]: rating
+                }
+            }))
+            return
+        }
+
+        this.setState(({ratedMovies, ratingMap})=>({
+            ratedMovies: [...ratedMovies, {...movieData, userRating: rating}],
+            ratingMap:{
+                    ...ratingMap,
+                    [movieData.id]: rating
+                }
+        }))
+    }
+
     render(){
+        console.log("App render")
         const searchTab = {
             label: "Search",
             key: 1,
-            children: <SearchMoviePage/>
+            children: <SearchMoviePage rateHandler={this.rateMovie}/>
         }
 
         const ratedTab = {
             label: "Rated",
             key: 2,
-            children: "This is your rated films"
+            children: <RatedMoviePage  movies={this.state.ratedMovies}/>
         }
 
         return (
             <APIContext.Provider value={this.movieApi}>
                 <GenresContext.Provider value={this.state.genres}>
-                    <Tabs
-                        defaultActiveKey="1"
-                        centered
-                        items={[
-                            searchTab, 
-                            ratedTab
-                        ]}
-                    />
+                    <RatingContext.Provider value={this.state.ratingMap}>
+                        <Tabs
+                            defaultActiveKey="1"
+                            centered
+                            items={[
+                                searchTab, 
+                                ratedTab
+                            ]}
+                        />
+                    </RatingContext.Provider>
                 </GenresContext.Provider>
             </APIContext.Provider>
         )
