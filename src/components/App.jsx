@@ -34,9 +34,8 @@ export default class App extends React.Component{
     }
 
     rateMovie = (movieData, rating)=>{
-        console.log("movieRated")
-        console.log("movie data:", movieData)
-        console.log("rating:", rating)
+        // this.movieApi.rateMovie(movieData.id, rating).then(res => console.log(res))
+
         if(movieData.id in this.state.ratingMap){
             this.setState(({ratingMap})=>({
                 ratingMap:{
@@ -67,7 +66,7 @@ export default class App extends React.Component{
         const ratedTab = {
             label: "Rated",
             key: 2,
-            children: <RatedMoviePage  movies={this.state.ratedMovies}/>
+            children: <RatedMoviePage  movies={this.state.ratedMovies} rateHandler={this.rateMovie}/>
         }
 
         return (
