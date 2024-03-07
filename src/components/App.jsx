@@ -6,6 +6,8 @@ import { GenresContext } from "../contexts/GenresContext.jsx";
 import { APIContext } from "../contexts/APIContext.jsx";
 import {RatingContext} from "../contexts/RatingContext.jsx";
 import RatedMoviePage from "./RatedMoviePage.jsx";
+import { InternetWatcher } from "./InternetWatcher.jsx";
+import { OnlineContex } from "../contexts/OnlineContext.jsx";
 
 export default class App extends React.Component{
     movieApi = new MovieAPIService();
@@ -60,7 +62,12 @@ export default class App extends React.Component{
         const searchTab = {
             label: "Search",
             key: 1,
-            children: <SearchMoviePage rateHandler={this.rateMovie}/>
+            children: (
+                <InternetWatcher>
+                    {online => <SearchMoviePage rateHandler={this.rateMovie} isOnline={online}/>}
+                </InternetWatcher>
+               
+            )
         }
 
         const ratedTab = {

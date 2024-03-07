@@ -41,20 +41,20 @@ export default class SearchMoviePage extends React.Component {
   maxID = 0;
   movieApi = this.context;
 
-  handleOnline = ()=>{
-    this.setState({
-      contentState: this.inputValue ? SearchMoviePage.ContentState.isLoading : SearchMoviePage.ContentState.isEmptySearch
-    })
+  // handleOnline = ()=>{
+  //   this.setState({
+  //     contentState: this.inputValue ? SearchMoviePage.ContentState.isLoading : SearchMoviePage.ContentState.isEmptySearch
+  //   })
 
-    // this.loadData()
-  }
+  //   // this.loadData()
+  // }
 
-  handleOfline = ()=>{
-    this.setState({
-      loadError: new NetworkError(),
-      contentState: SearchMoviePage.ContentState.isError
-    })
-  }
+  // handleOfline = ()=>{
+  //   this.setState({
+  //     loadError: new NetworkError(),
+  //     contentState: SearchMoviePage.ContentState.isError
+  //   })
+  // }
 
   loadMovies = (apiJson) => {
     return apiJson.results.map((result) => ({
@@ -98,6 +98,13 @@ export default class SearchMoviePage extends React.Component {
   }
 
   loadData = _.throttle((query, page=1) =>{
+    if(!this.props.isOnline){
+      this.setState({
+        contentState: SearchMoviePage.ContentState.isError,
+        loadError: new NetworkError()
+      })
+      return;
+    }
     (async () => {
       try {
         console.log(page)
@@ -124,21 +131,6 @@ export default class SearchMoviePage extends React.Component {
     this.setState({
       inputValue: evt.target.value
     })
-  }
-
-  componentDidMount(){
-    if(window) {
-      window.addEventListener('online',  this.handleOnline)
-      window.addEventListener('offline', this.handleOfline)
-    }
-    this.loadData()
-  }
-
-  componentWillUnmount(){
-    if(window) {
-      window.removeEventListener('online',  this.handleOnline)
-      window.removeEventListener('offline', this.handleOfline)
-    }
   }
 
   componentDidUpdate(prevProps, prevState){
