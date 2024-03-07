@@ -1,0 +1,44 @@
+.movie-item{
+    display: grid;
+    grid-template-areas: 
+        "poster title rating"
+        "poster release-date release-date"
+        "poster tags tags"
+        "poster description description"
+        "poster rate-input rate-input";
+    grid-template-columns: 18fr 20fr 3fr;
+    grid-template-rows: 45fr 25fr 25fr 125fr 50fr;
+    width: 500px;
+    height: 280px;
+    padding: 0 !important;
+    
+    &__poster{
+        grid-area: poster;
+    }
+
+    &__title{
+        grid-area: title;
+    }
+
+    &__release-date{
+        grid-area: release-date;
+        height: 30px;
+    }
+
+    &__tags{
+        grid-area: tags;
+    }
+
+    &__description{
+        grid-area: description;
+        height: 100px;
+    }
+
+    &__rating{
+        grid-area: rating;
+    }
+
+    &__rate-input{
+        grid-area: rate-input;
+    }
+}

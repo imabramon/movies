@@ -10,6 +10,7 @@ import ErrorStub from './ErrorStub.jsx';
 import EmptySearchStub from './EmptySearchStub.jsx';
 import SearchInput from './SearchInput.jsx';
 import _ from 'loadsh'
+import { APIContext } from '../contexts/APIContext.jsx';
 
 var sleepSetTimeout_ctrl;
 
@@ -19,6 +20,7 @@ function sleep(ms) {
 }
 
 export default class SearchMoviePage extends React.Component {
+  static contextType = APIContext;
 
   static ContentState = {
     isLoading: 'isLoading',
@@ -37,7 +39,7 @@ export default class SearchMoviePage extends React.Component {
   };
 
   maxID = 0;
-  movieApi = new MovieAPIService();
+  movieApi = this.context;
 
   handleOnline = ()=>{
     this.setState({

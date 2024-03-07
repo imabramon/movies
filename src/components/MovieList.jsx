@@ -1,13 +1,13 @@
 import React from 'react';
 import { Flex, Pagination } from 'antd';
-import MovieItem from './MovieItem';
+import MovieItem from './MovieItem/MovieItem';
 
 export default function MovieList(props) {
   const { movies, totalPages, currentPage, changePageHandler, rateHandler} = props;
   const movieElements = movies.map((movieData) => <MovieItem key={movieData.id} {...movieData} rateHandler={rateHandler}/>);
 
   const flexStyle = {
-    width: 1036,
+    width: "min(1036px, 100%)",
   };
 
   const onChange = (current)=>{
@@ -21,7 +21,7 @@ export default function MovieList(props) {
       gap={36}
     >
       <Flex style={flexStyle} gap={36} wrap="wrap">
-        {...movieElements}
+        {movieElements[0]}
       </Flex>
       <Pagination 
         defaultCurrent={1} 

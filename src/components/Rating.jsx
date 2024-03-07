@@ -11,7 +11,7 @@ const getColor = (rating) =>{
     }
 }
 
-export default function Rating({rating}){
+export default function Rating({rating, className}){
 
     const color = getColor(rating)
 
@@ -26,7 +26,7 @@ export default function Rating({rating}){
     }
 
     return (
-        <div style={containerStyle}>
+        <div style={containerStyle} className={className}>
             <Text>{rating}</Text>
         </div>
     )
