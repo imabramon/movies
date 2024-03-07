@@ -21,7 +21,7 @@ export default function MovieList(props) {
       gap={36}
     >
       <Flex style={flexStyle} gap={36} wrap="wrap">
-        {movieElements[0]}
+        {movieElements}
       </Flex>
       <Pagination 
         defaultCurrent={1} 

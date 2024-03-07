@@ -49,14 +49,36 @@ export default function MovieItem(props) {
     maxWidth: '200px'
   };
 
+  const isMobile = window.matchMedia("(max-width: 1035px)").matches
+  // console.log(isMobile)
+
+  const imageSize = {
+    width: isMobile ? "calc(60 / 420 * 100vw)" : 180,
+    height: isMobile ? "calc(90 / 420 * 100vw)" : 280,
+  }
+
+  const paragraph = 
+    description !== "" 
+    ?
+    <Paragraph 
+      className='movie-item__description'
+      // ellipsis={{ rows: 6 }}
+    >
+      {description}
+    </Paragraph>
+    :
+    null;
+
+
     return (
-      <Card classNames={{body: "movie-item"}}>
+      <Card style={cardStyle} classNames={{body:'movie-item'}}>
         <Image 
-          className='movie-item__poster'
+          rootClassName='movie-item__poster'
           src={src} 
           style={imageStyle} 
-          width={180}
-          height={280}
+          {...imageSize}
+          // {width={180}
+          // height={280}}
         />
         <Title 
           className='movie-item__title'
@@ -81,12 +103,7 @@ export default function MovieItem(props) {
         >
           {tagsElements}
         </Space>
-        <Paragraph 
-          className='movie-item__description'
-          ellipsis={{ rows: 6 }}
-        >
-          {description}
-        </Paragraph>
+        {paragraph}
         <RatingContext.Consumer>
           {ratingMap=>
             <Rate className="movie-item__rate-input" count={10} allowHalf style={{fontSize: 18}} onChange={rateMovie} value={id in ratingMap ? ratingMap[id] : 0}/>

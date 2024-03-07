@@ -11,9 +11,31 @@
     width: 500px;
     height: 280px;
     padding: 0 !important;
+
+
+    @media (max-width: 1035px) {
+        padding: 10px !important;
+        width: 100%;
+        height: fit-content;
+        grid-template-areas: 
+            "poster title rating"
+            "poster release-date release-date"
+            "poster tags tags"
+            "description description description" 
+            "rate-input rate-input rate-input";
+        grid-template-columns: 6fr 25fr 3fr;
+        grid-template-rows: auto  auto 5fr fit-content(90px) 5fr;
+    }
     
     &__poster{
         grid-area: poster;
+
+        & img{
+             @media (max-width: 1035px) {
+                width: calc(60 / 420 * 100vw) !important;
+                height: calc(90 / 420 * 100vw) !important;
+             }
+        }
     }
 
     &__title{
@@ -22,7 +44,7 @@
 
     &__release-date{
         grid-area: release-date;
-        height: 30px;
+        // height: 30px;
     }
 
     &__tags{
@@ -32,13 +54,23 @@
     &__description{
         grid-area: description;
         height: 100px;
+        @media (max-width: 1035px) {
+            height: fit-content;
+            max-height: 100px;
+        }
+
     }
 
     &__rating{
         grid-area: rating;
+        align-self: center;
     }
 
     &__rate-input{
         grid-area: rate-input;
+        @media (max-width: 1035px) {
+            justify-self: end;
+            margin-right: 10px;
+        }
     }
 }
