@@ -9,6 +9,13 @@ import RatedMoviePage from "./RatedMoviePage.jsx";
 import { InternetWatcher } from "./InternetWatcher.jsx";
 import { OnlineContex } from "../contexts/OnlineContext.jsx";
 
+var sleepSetTimeout_ctrl;
+
+function sleep(ms) {
+    clearInterval(sleepSetTimeout_ctrl);
+    return new Promise(resolve => sleepSetTimeout_ctrl = setTimeout(resolve, ms));
+}
+
 export default class App extends React.Component{
     movieApi = new MovieAPIService();
 
