@@ -89,7 +89,7 @@ export default function MovieItem(props) {
         </Title>
         <Rating 
           className='movie-item__rating'
-          rating={rating}
+          rating={rating.toFixed(1)}
         />
         <Text
           className='movie-item__release-date' 
