@@ -40,6 +40,13 @@
 
     &__title{
         grid-area: title;
+
+        &--overflow{
+            animation-name: infiniteScroll;
+            animation-duration: 20s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
     }
 
     &__release-date{
@@ -75,4 +82,9 @@
             margin-right: 10px;
         }
     }
+}
+
+@keyframes infiniteScroll {
+  from {transform: translateX(0) }
+  to {transform: translateX(calc(0px - 50%));}
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Image, Row, Col, Flex, Space, ConfigProvider , Rate} from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
-import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import defaultPicture from '../../assets/templatePhoto.png';
 import { format, formatDistanceToNow } from 'date-fns';
@@ -9,6 +8,7 @@ import GenreTag from '../GenreTag';
 import Rating from '../Rating';
 import { RatingContext } from '../../contexts/RatingContext';
 import './MovieItem.scss'
+import MovieTitle from '../MovieTitle/MovieTitle';
 
 export default function MovieItem(props) {
   const { id, name, date, tags, description, src, rating, rateHandler} = props;
@@ -42,11 +42,6 @@ export default function MovieItem(props) {
   const imageStyle = {
     width: '183px',
     heigh: '100%',
-  };
-
-  const titleStyles = {
-    fontSize: '20px',
-    maxWidth: '200px'
   };
 
   const isMobile = window.matchMedia("(max-width: 1035px)").matches
@@ -96,13 +91,7 @@ export default function MovieItem(props) {
           // {width={180}
           // height={280}}
         />
-        <Title 
-          className='movie-item__title'
-          level="2" 
-          style={titleStyles}
-        >
-          {name}
-        </Title>
+        <MovieTitle title={name}/>
         <Rating 
           className='movie-item__rating'
           rating={rating.toFixed(1)}
