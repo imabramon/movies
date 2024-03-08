@@ -52,6 +52,7 @@
     }
 
     &__description{
+        align-self: center;
         grid-area: description;
         height: 100px;
         @media (max-width: 1035px) {
@@ -67,6 +68,7 @@
     }
 
     &__rate-input{
+        align-self: center;
         grid-area: rate-input;
         @media (max-width: 1035px) {
             justify-self: end;

@@ -57,18 +57,34 @@ export default function MovieItem(props) {
     height: isMobile ? "calc(90 / 420 * 100vw)" : 280,
   }
 
+  const trimText = (text)=>{
+      const maxSize = 198;
+
+      if(maxSize - text.length >= 0) return text
+      let textEnd = maxSize - 3;
+      
+      while(text.charAt(textEnd) !== ' '){
+        textEnd--;
+      }
+
+      return text.substring(0, textEnd) + "..."
+      
+  };
+
   const paragraph = 
     description !== "" 
     ?
     <Paragraph 
       className='movie-item__description'
+      style={{width: 228}}
       // ellipsis={{ rows: 6 }}
     >
-      {description}
+      {trimText(description)}
     </Paragraph>
     :
     null;
 
+    
 
     return (
       <Card style={cardStyle} classNames={{body:'movie-item'}}>
