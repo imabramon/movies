@@ -54,7 +54,7 @@ export default function MovieItem(props) {
   }
 
   const trimText = (text)=>{
-      const maxSize = 198;
+      const maxSize = 180;
 
       if(maxSize - text.length >= 0) return text
       let textEnd = maxSize - 3;
@@ -73,7 +73,6 @@ export default function MovieItem(props) {
     <Paragraph 
       className='movie-item__description'
       style={{width: 228}}
-      // ellipsis={{ rows: 6 }}
     >
       {trimText(description)}
     </Paragraph>
@@ -102,12 +101,6 @@ export default function MovieItem(props) {
           {formatDate(date)}
         </Text>
         <MovieTags className='movie-item__tags' tags={tags}/>
-        {/* <Space
-          className='movie-item__tags' 
-          wrap
-        >
-          {tagsElements}
-        </Space> */}
         {paragraph}
         <RatingContext.Consumer>
           {ratingMap=>

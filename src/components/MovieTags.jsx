@@ -34,7 +34,7 @@ export default class MovieTags extends React.Component{
             <Space
                 className={className} 
                 wrap
-                style={{maxWidth:200}}
+                style={{maxWidth:200, overflow: "hidden"}}
             >
                 <ContentMayOverflow isOverflow={isOverlow}>
                     {tagsElements}
