@@ -9,6 +9,7 @@ import Rating from '../Rating';
 import { RatingContext } from '../../contexts/RatingContext';
 import './MovieItem.scss'
 import MovieTitle from '../MovieTitle';
+import MovieTags from '../MovieTags';
 
 export default function MovieItem(props) {
   const { id, name, date, tags, description, src, rating, rateHandler} = props;
@@ -26,7 +27,7 @@ export default function MovieItem(props) {
     }
   };
 
-  const tagsElements = tags.map((tag) => <GenreTag id={tag}/>)
+    const tagsElements = tags.map((tag) => <GenreTag id={tag}/>)
 
   const cardStyle = {
     width: 500,
@@ -88,8 +89,6 @@ export default function MovieItem(props) {
           src={src} 
           style={imageStyle} 
           {...imageSize}
-          // {width={180}
-          // height={280}}
         />
         <MovieTitle title={name}/>
         <Rating 
@@ -102,12 +101,13 @@ export default function MovieItem(props) {
         >
           {formatDate(date)}
         </Text>
-        <Space
+        <MovieTags className='movie-item__tags' tags={tags}/>
+        {/* <Space
           className='movie-item__tags' 
           wrap
         >
           {tagsElements}
-        </Space>
+        </Space> */}
         {paragraph}
         <RatingContext.Consumer>
           {ratingMap=>
@@ -116,50 +116,4 @@ export default function MovieItem(props) {
         </RatingContext.Consumer>
       </Card>
     )
-
-  // return (
-  //   <Card 
-  //     style={cardStyle} 
-  //     styles={cardStyles}
-  //   >
-  //     <Row wrap={false}>
-  //       <Col flex={6}>
-  //         <Image 
-  //           src={src} 
-  //           style={imageStyle} 
-  //         />
-  //       </Col>
-  //       <Col flex={9}>
-  //         <Flex vertical style={{ 
-  //               width: '270px',
-  //               height: "100%",
-  //               paddingBottom: '20px' 
-  //             }} justify='space-between'>
-  //           <Flex 
-  //             vertical 
-  //             style={{ 
-  //               width: '270px' 
-  //             }} 
-  //             gap="small"
-  //           >
-  //             <Flex justify='space-between' align='center'>
-  //               <Title level="2" style={titleStyles}>
-  //                 {name}
-  //               </Title>
-  //               <Rating rating={rating}/>
-  //             </Flex>
-              // <Text type="secondary">{formatDate(date)}</Text>
-              // <Space wrap>{tagsElements}</Space>
-              // <Paragraph ellipsis={{ rows: 6 }}>{description}</Paragraph>
-  //           </Flex>
-            // <RatingContext.Consumer>
-            //   {ratingMap=>
-            //     <Rate count={10} allowHalf style={{fontSize: 18}} onChange={rateMovie} value={id in ratingMap ? ratingMap[id] : 0}/>
-            //   }
-            //   </RatingContext.Consumer>
-  //         </Flex>
-  //       </Col>
-  //     </Row>
-  //   </Card>
-  // );
 }

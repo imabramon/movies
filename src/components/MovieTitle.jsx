@@ -2,6 +2,7 @@ import React from "react";
 import Title from 'antd/es/typography/Title';
 import ContentMayOverflow from "./ContentMayOverflow/ContentMayOverflow";
 
+
 export default function MovieTitle(props){
     const {title} = props
 
@@ -17,7 +18,7 @@ export default function MovieTitle(props){
 
     return (
         <Title 
-          className = {`movie-item__title ${overflowClassName}`}
+          className = {`movie-item__title`}
           level="2" 
           style={titleStyles}
         >
