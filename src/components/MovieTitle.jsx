@@ -1,7 +1,6 @@
 import React from "react";
 import Title from 'antd/es/typography/Title';
-
-import './MovieTitle.scss'
+import ContentMayOverflow from "./ContentMayOverflow/ContentMayOverflow";
 
 export default function MovieTitle(props){
     const {title} = props
@@ -16,21 +15,13 @@ export default function MovieTitle(props){
         return text.length > maxSize
     })(title)
 
-    const overflowClassName = isOverwlow ? "overflow-title" : ""
-
     return (
         <Title 
           className = {`movie-item__title ${overflowClassName}`}
           level="2" 
           style={titleStyles}
         >
-          { isOverwlow
-            ? <div className="overflow-title__container">
-                <span className="overflow-title__title">{title}</span>
-                <span className="overflow-title__title">{title}</span>
-              </div>
-            : title
-          }
+          <ContentMayOverflow isOverflow={isOverwlow}>{title}</ContentMayOverflow>
         </Title>
     )
 }

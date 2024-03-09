@@ -8,7 +8,7 @@ import GenreTag from '../GenreTag';
 import Rating from '../Rating';
 import { RatingContext } from '../../contexts/RatingContext';
 import './MovieItem.scss'
-import MovieTitle from '../MovieTitle/MovieTitle';
+import MovieTitle from '../MovieTitle';
 
 export default function MovieItem(props) {
   const { id, name, date, tags, description, src, rating, rateHandler} = props;
