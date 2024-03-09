@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert } from "antd";
 
-export default function EmptySearchStub(){
+export default function EmptyStub({message}){
     return (
         <Alert 
             style={{
@@ -9,7 +9,8 @@ export default function EmptySearchStub(){
                 margin: "auto"
             }}
             message="Введите запрос"
-            description="Мы пока не умеем читать мысли, введите ваш запрос"
+            description={message}
+            // description="Мы пока не умеем читать мысли, введите ваш запрос"
             type="info"
             showIcon
         />

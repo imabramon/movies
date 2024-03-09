@@ -7,7 +7,7 @@ import noPosterImage from '../assets/no_poster.png';
 import LoadingStab from './LoadingStab.jsx';
 import NetworkError from '../errors/NetworkError.js';
 import ErrorStub from './ErrorStub.jsx';
-import EmptySearchStub from './EmptySearchStub.jsx';
+import EmptyStub from './EmptyStub.jsx';
 import SearchInput from './SearchInput.jsx';
 import _ from 'loadsh'
 import { APIContext } from '../contexts/APIContext.jsx';
@@ -90,7 +90,7 @@ export default class SearchMoviePage extends React.Component {
           changePageHandler: this.goToPage}
         return <MovieList {...props}/>
       case SearchMoviePage.ContentState.isLoading: return <LoadingStab/>
-      case SearchMoviePage.ContentState.isEmptySearch: return <EmptySearchStub/>
+      case SearchMoviePage.ContentState.isEmptySearch: return <EmptyStub message="Мы пока не умеем читать мысли, введите ваш запрос"/>
       case SearchMoviePage.ContentState.isError: 
       default: 
         return <ErrorStub error={this.state.loadError} />
