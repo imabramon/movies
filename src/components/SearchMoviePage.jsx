@@ -9,14 +9,14 @@ import NetworkError from '../errors/NetworkError.js';
 import ErrorStub from './ErrorStub.jsx';
 import EmptyStub from './EmptyStub.jsx';
 import SearchInput from './SearchInput.jsx';
-import _ from 'loadsh'
+import _ from 'loadsh';
 import { APIContext } from '../contexts/APIContext.jsx';
 
 var sleepSetTimeout_ctrl;
 
 function sleep(ms) {
-    clearInterval(sleepSetTimeout_ctrl);
-    return new Promise(resolve => sleepSetTimeout_ctrl = setTimeout(resolve, ms));
+  clearInterval(sleepSetTimeout_ctrl);
+  return new Promise((resolve) => (sleepSetTimeout_ctrl = setTimeout(resolve, ms)));
 }
 
 export default class SearchMoviePage extends React.Component {
@@ -33,7 +33,7 @@ export default class SearchMoviePage extends React.Component {
     movies: [],
     contentState: SearchMoviePage.ContentState.isEmptySearch,
     loadError: null,
-    inputValue: "Return",
+    inputValue: 'Return',
     currentPage: 0,
     totalPages: 0,
   };
@@ -73,79 +73,82 @@ export default class SearchMoviePage extends React.Component {
     return `https://image.tmdb.org/t/p/original${resonseURL}`;
   };
 
-  goToPage = (page) =>{
-    this.setState({contentState: SearchMoviePage.ContentState.isLoading})
-    this.loadData(this.state.inputValue, page)
-  }
+  goToPage = (page) => {
+    this.setState({ contentState: SearchMoviePage.ContentState.isLoading });
+    this.loadData(this.state.inputValue, page);
+  };
 
-  renderContent = (contentState)=>{
-    switch(contentState){
-      case SearchMoviePage.ContentState.isContenLoaded: 
-        const {currentPage, totalPages, movies} = this.state
+  renderContent = (contentState) => {
+    switch (contentState) {
+      case SearchMoviePage.ContentState.isContenLoaded:
+        const { currentPage, totalPages, movies } = this.state;
         const props = {
-          currentPage, 
-          totalPages, 
-          movies, 
+          currentPage,
+          totalPages,
+          movies,
           rateHandler: this.props.rateHandler,
-          changePageHandler: this.goToPage}
-        return <MovieList {...props}/>
-      case SearchMoviePage.ContentState.isLoading: return <LoadingStab/>
-      case SearchMoviePage.ContentState.isEmptySearch: return <EmptyStub message="Мы пока не умеем читать мысли, введите ваш запрос"/>
-      case SearchMoviePage.ContentState.isError: 
-      default: 
-        return <ErrorStub error={this.state.loadError} />
+          changePageHandler: this.goToPage,
+        };
+        return <MovieList {...props} />;
+      case SearchMoviePage.ContentState.isLoading:
+        return <LoadingStab />;
+      case SearchMoviePage.ContentState.isEmptySearch:
+        return <EmptyStub message="Мы пока не умеем читать мысли, введите ваш запрос" />;
+      case SearchMoviePage.ContentState.isError:
+      default:
+        return <ErrorStub error={this.state.loadError} />;
     }
-  }
+  };
 
-  loadData = _.throttle((query, page=1) =>{
-    if(!this.props.isOnline){
+  loadData = _.throttle((query, page = 1) => {
+    if (!this.props.isOnline) {
       this.setState({
         contentState: SearchMoviePage.ContentState.isError,
-        loadError: new NetworkError()
-      })
+        loadError: new NetworkError(),
+      });
       return;
     }
     (async () => {
       try {
-        console.log(page)
+        console.log(page);
         // await sleep(10000)
         const movieData = await this.movieApi.searchMovieByPage(query, page);
         //console.log(movieData)
-        const {total_pages: totalPages} = movieData 
-        this.setState({ 
+        const { total_pages: totalPages } = movieData;
+        this.setState({
           movies: [...this.loadMovies(movieData)],
           contentState: SearchMoviePage.ContentState.isContenLoaded,
           currentPage: page,
           totalPages,
         });
-      }catch(e){
+      } catch (e) {
         this.setState({
           contentState: SearchMoviePage.ContentState.isError,
           loadError: e,
-        })
+        });
       }
     })();
-  }, 2000)
+  }, 2000);
 
-  inputChange = (evt) =>{
+  inputChange = (evt) => {
     this.setState({
-      inputValue: evt.target.value
-    })
-  }
+      inputValue: evt.target.value,
+    });
+  };
 
-  componentDidUpdate(prevProps, prevState){
-    const {inputValue, currentPage} = this.state;
+  componentDidUpdate(prevProps, prevState) {
+    const { inputValue, currentPage } = this.state;
 
-    if(inputValue !== prevState.inputValue){
-      if(inputValue){
-        this.setState({contentState: SearchMoviePage.ContentState.isLoading})
-        this.loadData(inputValue)
+    if (inputValue !== prevState.inputValue) {
+      if (inputValue) {
+        this.setState({ contentState: SearchMoviePage.ContentState.isLoading });
+        this.loadData(inputValue);
       }
     }
 
-    if(currentPage !== prevState.currentPage){
-      if(window){
-        window.scrollTo(0, 0)
+    if (currentPage !== prevState.currentPage) {
+      if (window) {
+        window.scrollTo(0, 0);
       }
     }
   }
@@ -163,11 +166,9 @@ export default class SearchMoviePage extends React.Component {
     return (
       <Layout style={{ height: '100%' }}>
         <Header>
-          <SearchInput changeHandler={this.inputChange}/>
+          <SearchInput changeHandler={this.inputChange} />
         </Header>
-        <Content style={contentStyles}>
-         {this.renderContent(this.state.contentState)}
-        </Content>
+        <Content style={contentStyles}>{this.renderContent(this.state.contentState)}</Content>
       </Layout>
     );
   }

@@ -3,32 +3,30 @@ import { Flex, Pagination } from 'antd';
 import MovieItem from './MovieItem/MovieItem';
 
 export default function MovieList(props) {
-  const { movies, totalPages, currentPage, changePageHandler, rateHandler} = props;
-  const movieElements = movies.map((movieData) => <MovieItem key={movieData.id} {...movieData} rateHandler={rateHandler}/>);
+  const { movies, totalPages, currentPage, changePageHandler, rateHandler } = props;
+  const movieElements = movies.map((movieData) => (
+    <MovieItem key={movieData.id} {...movieData} rateHandler={rateHandler} />
+  ));
 
   const flexStyle = {
-    width: "min(1036px, 100%)",
+    width: 'min(1036px, 100%)',
   };
 
-  const onChange = (current)=>{
-    changePageHandler(current)
-  }
+  const onChange = (current) => {
+    changePageHandler(current);
+  };
   return (
-    <Flex vertical 
+    <Flex
+      vertical
       style={{
-        alignItems: "center"
+        alignItems: 'center',
       }}
       gap={36}
     >
       <Flex style={flexStyle} gap={36} wrap="wrap">
         {movieElements}
       </Flex>
-      <Pagination 
-        defaultCurrent={1} 
-        total={totalPages} 
-        current={currentPage} 
-        onChange={onChange}
-      />
+      <Pagination defaultCurrent={1} total={totalPages} current={currentPage} onChange={onChange} />
     </Flex>
   );
 }

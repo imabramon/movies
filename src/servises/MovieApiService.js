@@ -1,5 +1,4 @@
 export default class MovieAPIService {
-
   server = 'https://api.themoviedb.org/3/';
 
   authToken =
@@ -12,21 +11,17 @@ export default class MovieAPIService {
     },
   };
 
-  constructor(){
-    // this.checkSession()
-  }
-
-  async checkSession(){
-    if(this.guestSessionId){
-      return
+  async checkSession() {
+    if (this.guestSessionId) {
+      return;
     }
 
-    const {guest_session_id} = await this.getResponse('authentication/guest_session/new')
-    this.guestSessionId = guest_session_id
+    const { guest_session_id: guestSessionId } = await this.getResponse('authentication/guest_session/new');
+    this.guestSessionId = guestSessionId;
   }
 
   async getResponse(url, options = {}) {
-    const res = await fetch(this.server + url, {...this.defualtOptions, ...options});
+    const res = await fetch(this.server + url, { ...this.defualtOptions, ...options });
     const data = await res.json();
     return data;
   }
@@ -46,19 +41,19 @@ export default class MovieAPIService {
     return moviesData;
   }
 
-  async getGenres(){
-    const genresData = await this.getResponse('genre/movie/list')
-    return genresData
+  async getGenres() {
+    const genresData = await this.getResponse('genre/movie/list');
+    return genresData;
   }
 
-  async rateMovie(id, rating){
-    await this.checkSession()
+  async rateMovie(id, rating) {
+    await this.checkSession();
     const result = await this.getResponse(`movie/${id}/rating?guest_session_id=${this.guestSessionId}`, {
-      method: 'POST', 
+      method: 'POST',
       body: JSON.stringify({
-        value: rating
-      })
-    })
-    return result
+        value: rating,
+      }),
+    });
+    return result;
   }
 }

@@ -1,3 +1,3 @@
-import React from "react";
+import React from 'react';
 
-export const RatingContext = React.createContext({})
+export const RatingContext = React.createContext({});

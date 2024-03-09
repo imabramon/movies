@@ -1,5 +1,1 @@
-export default class NetworkError extends Error{
-    constructor(...args){
-        super(...args)
-    }
-}
+export default class NetworkError extends Error {}

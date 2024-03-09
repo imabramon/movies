@@ -1,3 +1,3 @@
-import React from "react";
+import React from 'react';
 
-export const OnlineContex = React.createContext(false)
+export const OnlineContex = React.createContext(false);
