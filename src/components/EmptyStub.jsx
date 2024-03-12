@@ -10,7 +10,6 @@ export default function EmptyStub({ message }) {
       }}
       message="Введите запрос"
       description={message}
-      // description="Мы пока не умеем читать мысли, введите ваш запрос"
       type="info"
       showIcon
     />

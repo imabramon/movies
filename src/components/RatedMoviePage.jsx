@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import MovieList from './MovieList';
 import EmptyStub from './EmptyStub';
 import { Layout } from 'antd';

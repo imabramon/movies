@@ -1,10 +1,7 @@
 import React from 'react';
-import { Card, Image, Row, Col, Flex, Space, ConfigProvider, Rate } from 'antd';
+import { Card, Image, Rate } from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
 import Text from 'antd/es/typography/Text';
-import defaultPicture from '../../assets/templatePhoto.png';
-import { format, formatDistanceToNow } from 'date-fns';
-import GenreTag from '../GenreTag';
 import Rating from '../Rating';
 import { RatingContext } from '../../contexts/RatingContext';
 import './MovieItem.scss';
@@ -13,7 +10,6 @@ import MovieTags from '../MovieTags';
 
 export default function MovieItem(props) {
   const { id, name, date, tags, description, src, rating, rateHandler } = props;
-  // console.log(src);
 
   const rateMovie = (rating) => {
     rateHandler(props, rating);
@@ -26,8 +22,6 @@ export default function MovieItem(props) {
       return 'release date not specified';
     }
   };
-
-  const tagsElements = tags.map((tag) => <GenreTag id={tag} />);
 
   const cardStyle = {
     width: 500,
@@ -46,7 +40,6 @@ export default function MovieItem(props) {
   };
 
   const isMobile = window.matchMedia('(max-width: 1035px)').matches;
-  // console.log(isMobile)
 
   const imageSize = {
     width: isMobile ? 'calc(60 / 420 * 100vw)' : 180,
